@@ -13,5 +13,12 @@ RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
+ENV NVIDIA_DRIVER_CAPABILITIES compute,video,utility
+
+RUN mkdir -p /usr/local/bin /patched-lib
+COPY patch.sh docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/patch.sh /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
