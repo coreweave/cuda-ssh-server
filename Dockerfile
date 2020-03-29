@@ -1,10 +1,11 @@
-FROM nvidia/cuda:10.2-devel-ubuntu18.04
+#FROM nvidia/cuda:10.1-devel-ubuntu18.04
+FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
 
 ENV container docker
 ENV LC_ALL C
 
 RUN apt-get update && \
-    apt-get install -y systemd systemd-sysv openssh-server && \
+    apt-get install -y systemd systemd-sysv openssh-server vim nano iputils-ping curl wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -18,6 +19,20 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
+COPY environment /etc/environment
+
+RUN cd /lib/systemd/system/sysinit.target.wants/ \
+    && ls | grep -v systemd-tmpfiles-setup | xargs rm -f $1
+
+RUN rm -f /lib/systemd/system/multi-user.target.wants/* \
+    /etc/systemd/system/*.wants/* \
+    /lib/systemd/system/local-fs.target.wants/* \
+    /lib/systemd/system/sockets.target.wants/*udev* \
+    /lib/systemd/system/sockets.target.wants/*initctl* \
+    /lib/systemd/system/basic.target.wants/* \
+    /lib/systemd/system/anaconda.target.wants/* \
+    /lib/systemd/system/plymouth* \
+    /lib/systemd/system/systemd-update-utmp*
 
 EXPOSE 22
 CMD ["/lib/systemd/systemd"]
