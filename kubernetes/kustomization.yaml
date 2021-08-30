@@ -1,0 +1,5 @@
+resources:
+- ./sshd-deployment.yaml
+- ./sshd-data-pvc.yaml
+- ./sshd-root-pvc.yaml
+- ./sshd-service.yaml

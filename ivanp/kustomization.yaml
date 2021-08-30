@@ -1,0 +1,5 @@
+namePrefix: ivanp-
+resources:
+- ../kubernetes
+commonLabels:
+  app.kubernetes.io/name: ivanp-sshd
