@@ -1,0 +1,7 @@
+namePrefix: training-
+resources:
+- ../kubernetes
+commonLabels:
+  app.kubernetes.io/name: training-sshd
+patchesStrategicMerge:
+- patch.yaml
