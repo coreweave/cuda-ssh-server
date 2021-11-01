@@ -1,5 +1,4 @@
-#FROM nvidia/cuda:10.1-devel-ubuntu18.04
-FROM livepeer/go-livepeer:yf-bump-cuda
+FROM nvidia/cuda:11.2.2-cudnn8-runtime-ubuntu18.04
 
 ENV container docker
 ENV LC_ALL C
